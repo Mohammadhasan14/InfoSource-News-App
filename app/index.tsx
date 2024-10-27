@@ -38,6 +38,23 @@ export default function Index() {
     return () => backHandler.remove();
   }, [backPressCount]);
 
+  const hideElements = `
+  try {
+    jQuery(document).ready(function($) {
+      if ($(window).width() <= 768) {
+        $('.component-wrap').css('display', 'none');
+        $('.site-footer').css('display', 'none');
+      }
+    });
+
+  } catch (error) {
+    console.log('Error hiding element:', error);
+  }
+  true;
+`;
+
+
+
   return (
     <View style={styles.container}>
       <WebView
@@ -54,6 +71,8 @@ export default function Index() {
 
         )}
         source={{ uri: 'https://infosourcenews.com/' }}
+        injectedJavaScript={hideElements}
+
       />
       <Portal>
         <Dialog visible={visible} onDismiss={hideDialog} style={{ backgroundColor: '#fff' }}>
@@ -86,7 +105,7 @@ const styles = StyleSheet.create({
     right: 0,
     justifyContent: 'flex-end',
     alignItems: 'center',
-    paddingBottom: 340, 
+    paddingBottom: 340,
   },
   button: {
     marginHorizontal: 8,
